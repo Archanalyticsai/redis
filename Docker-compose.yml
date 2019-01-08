@@ -1,0 +1,14 @@
+version: '2.1'
+
+services:
+
+  redis:
+    restart: unless-stopped
+    image: redis
+    volumes:
+      - ./data:/data
+    ports:
+      - "6379:6379"
+    command: ['redis-server', '/etc/redis/redis.conf --requirepass $${REDIS_PASSWORD}']
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
