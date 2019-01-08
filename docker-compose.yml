@@ -9,7 +9,27 @@ services:
       - ./data:/data
     ports:
       - "6379:6379"
-
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-    command: ['redis-server', '--requirepass $${REDIS_PASSWORD}']
+    command: redis-server --requirepass $${REDIS_PASSWORD}
+    
+  rq:
+    build:
+      context: ./rq/
+    restart: unless-stopped
+    image: rq
+    command: rq worker tasks
+    
+  dashboard:
+    build:
+      context: ./rq/
+    ports:
+      - "9181:9181"
+    restart: unless-stopped
+    image: dashboard
+    command: rq-dashboard
+    
+    
+    
+
+  
