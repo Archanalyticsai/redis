@@ -20,7 +20,9 @@ services:
     image: rq
     volumes:
       - ./app:/app
-    command: rq worker --burst low high medium -u redis://:1234@redis:6379/10
+      - ./config:/etc/supervisor/conf.d/
+    # command: rq worker tasks -u redis://:1234@redis:6379/10
+    command: supervisord -n
     
   dashboard:
     build:
